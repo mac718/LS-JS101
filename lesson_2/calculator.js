@@ -15,8 +15,22 @@ prompt("Welcome to Calculator!");
 prompt("What's the first number?");
 let number1 = readline.question();
 
+function invalidNumber(number) {
+  return number.trimStart() === "" || Number.isNaN(Number(number));
+}
+
+while (invalidNumber(number1)) {
+  console.log("Hmm... that doesn't look like a valid number.");
+  number1 = readline.question();
+}
+
 prompt("What's the second number?");
 let number2 = readline.question();
+
+while (invalidNumber(number2)) {
+  console.log("Hmm... that doesn't look like a valid number.");
+  number2 = readline.question();
+}
 
 prompt(
   "What operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4)Divide"
