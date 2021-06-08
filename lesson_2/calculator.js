@@ -20,7 +20,7 @@ function invalidNumber(number) {
 }
 
 while (invalidNumber(number1)) {
-  console.log("Hmm... that doesn't look like a valid number.");
+  prompt("Hmm... that doesn't look like a valid number.");
   number1 = readline.question();
 }
 
@@ -36,6 +36,11 @@ prompt(
   "What operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4)Divide"
 );
 let operation = readline.question();
+
+while (!["1", "2", "3", "4"].includes(operation)) {
+  prompt("Must choose 1, 2, 3, or 4.");
+  operation = readline.question();
+}
 
 let output;
 
