@@ -1,5 +1,11 @@
 const readline = require("readline-sync");
 
+function greet() {
+  console.log("******************************************");
+  console.log("* Hello! Welcome to the Loan Calculator! *");
+  console.log("******************************************\n");
+}
+
 function prompt(message) {
   console.log(`=> ${message}`);
 }
@@ -13,11 +19,9 @@ function invalidInput(number) {
   );
 }
 
-console.log("******************************************");
-console.log("* Hello! Welcome to the Loan Calculator! *");
-console.log("******************************************");
+greet();
 
-prompt("Enter the amount of the loan:");
+prompt("Enter the amount of the loan without the dollar sign ($):");
 let loanAmount = readline.question();
 
 while (invalidInput(loanAmount)) {
@@ -25,7 +29,7 @@ while (invalidInput(loanAmount)) {
   loanAmount = readline.question();
 }
 
-prompt("Enter the Annual Percentage Rate (APR):");
+prompt("Enter the Annual Percentage Rate (APR) without the percent sign (%):");
 let apr = readline.question();
 
 while (invalidInput(apr)) {
@@ -33,7 +37,7 @@ while (invalidInput(apr)) {
   apr = readline.question();
 }
 
-prompt("Enter the loan duration:");
+prompt("Enter the loan duration in years:");
 let loanDurationInYears = readline.question();
 
 while (invalidInput(loanDurationInYears)) {
