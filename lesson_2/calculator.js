@@ -10,14 +10,14 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
+function invalidNumber(number) {
+  return number.trimStart() === "" || Number.isNaN(Number(number));
+}
+
 prompt("Welcome to Calculator!");
 
 prompt("What's the first number?");
 let number1 = readline.question();
-
-function invalidNumber(number) {
-  return number.trimStart() === "" || Number.isNaN(Number(number));
-}
 
 while (invalidNumber(number1)) {
   prompt("Hmm... that doesn't look like a valid number.");
