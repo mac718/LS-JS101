@@ -14,6 +14,7 @@ function invalidInput(number) {
   let splitNum = number.split(".");
   return (
     Number.isNaN(Number(number)) ||
+    number === "" ||
     splitNum.length > 2 ||
     (splitNum[1] && splitNum[1].length > 2)
   );
