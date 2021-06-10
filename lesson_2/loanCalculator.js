@@ -1,6 +1,6 @@
 const readline = require("readline-sync");
 
-function greet() {
+function printGreeting() {
   console.log("******************************************");
   console.log("* Hello! Welcome to the Loan Calculator! *");
   console.log("******************************************\n");
@@ -19,7 +19,7 @@ function invalidInput(number) {
   );
 }
 
-greet();
+printGreeting();
 
 while (true) {
   prompt("Enter the amount of the loan without the dollar sign ($):");
