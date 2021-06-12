@@ -1,6 +1,6 @@
 const readline = require("readline-sync");
 const VALID_CHOICES = ["rock", "paper", "scissors"];
-const WINNING_CONDITIONS = [
+const WINNING_COMBOS = [
   ["rock", "scissors"],
   ["scissors", "paper"],
   ["paper", "rock"],
@@ -8,6 +8,24 @@ const WINNING_CONDITIONS = [
 
 function prompt(message) {
   console.log(`=> ${message}`);
+}
+
+function displayRoundWinner(human, comp) {
+  for (let i = 0; i < WINNING_COMBOS.length; i++) {
+    if (human === WINNING_COMBOS[i][0] && comp === WINNING_COMBOS[i][1]) {
+      prompt("You win!");
+      break;
+    } else if (
+      comp === WINNING_COMBOS[i][0] &&
+      human === WINNING_COMBOS[i][1]
+    ) {
+      prompt("Computer wins!");
+      break;
+    } else if (comp === human) {
+      prompt("It's a tie!");
+      break;
+    }
+  }
 }
 
 while (true) {
@@ -24,21 +42,7 @@ while (true) {
 
   prompt(`You chose ${choice}, computer chose ${computerChoice}`);
 
-  if (
-    (choice === "rock" && computerChoice === "scissors") ||
-    (choice === "paper" && computerChoice === "rock") ||
-    (choice === "scissors" && computerChoice === "paper")
-  ) {
-    prompt("You win!");
-  } else if (
-    (choice === "rock" && computerChoice === "paper") ||
-    (choice === "paper" && computerChoice === "scissors") ||
-    (choice === "scissors" && computerChoice === "rock")
-  ) {
-    prompt("Computer wins!");
-  } else {
-    prompt("It's a tie!");
-  }
+  displayRoundWinner(choice, computerChoice);
 
   prompt("Do you want to play again (y/n)?");
   let answer = readline.question().toLowerCase();
