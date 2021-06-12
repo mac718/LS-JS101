@@ -20,7 +20,9 @@ function invalidInput(number) {
 }
 
 function getLoanAmount() {
-  prompt("Enter the amount of the loan WITHOUT the dollar sign ($):");
+  prompt(
+    "Enter the amount of the loan WITHOUT the dollar sign ($) or commas; e.g 10000, 500.60, etc.:"
+  );
   loanAmount = readline.question();
 
   while (invalidInput(loanAmount)) {
@@ -31,7 +33,7 @@ function getLoanAmount() {
 
 function getAPR() {
   prompt(
-    "Enter the Annual Percentage Rate (APR) WITHOUT the percent sign (%):"
+    "Enter the Annual Percentage Rate (APR) WITHOUT the percent sign (%); e.g. 5, 6.3, etc.:"
   );
   apr = readline.question();
 
@@ -74,8 +76,6 @@ function calculateMonthlyPayment(
   apr = Number(apr);
   loanDurationInYears = Number(loanDurationInYears);
   additionalLoanDurationMonths = Number(additionalLoanDurationMonths);
-
-  console.log(additionalLoanDurationMonths, "Add");
 
   let monthlyInterestRate = apr / 100 / 12;
   let durationInMonths =
@@ -124,6 +124,7 @@ while (true) {
   prompt(`Your monthly payment is: $${monthlyPayment.toFixed(2)}\n`);
 
   if (offerOtherCalculation() === "n") {
+    prompt("Thanks for using the Loan Calculator!");
     break;
   }
 }
