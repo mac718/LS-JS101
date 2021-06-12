@@ -15,14 +15,7 @@ function prompt(message) {
 }
 
 function invalidInput(number) {
-  let splitNum = number.split(".");
-  return (
-    Number.isNaN(Number(number)) ||
-    Number(number) < 1 ||
-    number === "" ||
-    splitNum.length > 2 ||
-    (splitNum[1] && splitNum[1].length > 2)
-  );
+  return Number.isNaN(Number(number)) || Number(number) < 1 || number === "";
 }
 
 function getLoanAmount() {
@@ -42,7 +35,7 @@ function getAPR() {
   apr = readline.question();
 
   while (invalidInput(apr)) {
-    prompt("Hmm... that is not a valid loan amount. Please try again:");
+    prompt("Hmm... that is not a valid APR. Please try again:");
     apr = readline.question();
   }
 }
@@ -52,7 +45,7 @@ function getLoanDurationInYears() {
   loanDurationInYears = readline.question();
 
   while (invalidInput(loanDurationInYears)) {
-    prompt("Hmm... that is not a valid loan amount. Please try again:");
+    prompt("Hmm... that is not a valid loan duration. Please try again:");
     loanDurationInYears = readline.question();
   }
 }
@@ -61,11 +54,15 @@ function calculateMonthlyPayment(loanAmount, apr, loanDurationInYears) {
   let monthlyInterestRate = apr / 100 / 12;
   let durationInMonths = loanDurationInYears * 12;
 
-  return (
-    loanAmount *
-    (monthlyInterestRate /
-      (1 - Math.pow(1 + monthlyInterestRate, -durationInMonths)))
-  );
+  if (apr === 0) {
+    return loanAmount / durationInMonths;
+  } else {
+    return (
+      loanAmount *
+      (monthlyInterestRate /
+        (1 - Math.pow(1 + monthlyInterestRate, -durationInMonths)))
+    );
+  }
 }
 
 function offerOtherCalculation() {
