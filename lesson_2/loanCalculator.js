@@ -3,6 +3,7 @@ const readline = require("readline-sync");
 let loanAmount;
 let apr;
 let loanDurationInYears;
+let additionalLoanDurationMonths;
 
 function printGreeting() {
   console.log("******************************************");
@@ -50,14 +51,33 @@ function getLoanDurationInYears() {
   }
 }
 
-function calculateMonthlyPayment(loanAmount, apr, loanDurationInYears) {
+function getAdditionalLoanDurationMonths() {
+  prompt("Enter the remaining months of the loan duration:");
+
+  additionalLoanDurationMonths = readline.question();
+
+  while (invalidInput(additionalLoanDurationMonths)) {
+    prompt("Hmm... that is not a valid entry. Please try again:");
+    additionalLoanDurationMonths = readline.question();
+  }
+}
+
+function calculateMonthlyPayment(
+  loanAmount,
+  apr,
+  loanDurationInYears,
+  additionalLoanDurationMonths
+) {
   loanAmount = Number(loanAmount);
   apr = Number(apr);
   loanDurationInYears = Number(loanDurationInYears);
+  additionalLoanDurationMonths = Number(additionalLoanDurationMonths);
 
-  let monthlyInterestRate = Number(apr) / 100 / 12;
-  let durationInMonths = Number(loanDurationInYears) * 12;
+  console.log(additionalLoanDurationMonths, "Add");
 
+  let monthlyInterestRate = apr / 100 / 12;
+  let durationInMonths =
+    loanDurationInYears * 12 + additionalLoanDurationMonths;
   if (apr === 0) {
     return loanAmount / durationInMonths;
   } else {
@@ -90,10 +110,13 @@ while (true) {
 
   getLoanDurationInYears();
 
+  getAdditionalLoanDurationMonths();
+
   let monthlyPayment = calculateMonthlyPayment(
     loanAmount,
     apr,
-    loanDurationInYears
+    loanDurationInYears,
+    additionalLoanDurationMonths
   );
 
   prompt(`Your monthly payment is: $${monthlyPayment.toFixed(2)}\n`);
