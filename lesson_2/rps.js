@@ -10,6 +10,17 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
+function getHumanChoice() {
+  prompt(`Choose one: ${VALID_CHOICES.join(", ")}`);
+  let choice = readline.question();
+
+  while (!VALID_CHOICES.includes(choice)) {
+    prompt("That's not a valid choice");
+    choice = readline.question();
+  }
+  return choice;
+}
+
 function displayRoundWinner(human, comp) {
   for (let i = 0; i < WINNING_COMBOS.length; i++) {
     if (human === WINNING_COMBOS[i][0] && comp === WINNING_COMBOS[i][1]) {
@@ -29,20 +40,14 @@ function displayRoundWinner(human, comp) {
 }
 
 while (true) {
-  prompt(`Choose one: ${VALID_CHOICES.join(", ")}`);
-  let choice = readline.question();
-
-  while (!VALID_CHOICES.includes(choice)) {
-    prompt("That's not a valid choice");
-    choice = readline.question();
-  }
+  let humanChoice = getHumanChoice();
 
   let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
   let computerChoice = VALID_CHOICES[randomIndex];
 
-  prompt(`You chose ${choice}, computer chose ${computerChoice}`);
+  prompt(`You chose ${humanChoice}, computer chose ${computerChoice}`);
 
-  displayRoundWinner(choice, computerChoice);
+  displayRoundWinner(humanChoice, computerChoice);
 
   prompt("Do you want to play again (y/n)?");
   let answer = readline.question().toLowerCase();
