@@ -21,21 +21,29 @@ function getHumanChoice() {
   return choice;
 }
 
-function displayRoundWinner(human, comp) {
+function determineRoundWinner(human, comp) {
   for (let i = 0; i < WINNING_COMBOS.length; i++) {
     if (human === WINNING_COMBOS[i][0] && comp === WINNING_COMBOS[i][1]) {
-      prompt("You win!");
-      break;
+      return "human";
     } else if (
       comp === WINNING_COMBOS[i][0] &&
       human === WINNING_COMBOS[i][1]
     ) {
-      prompt("Computer wins!");
-      break;
+      return "computer";
     } else if (comp === human) {
-      prompt("It's a tie!");
-      break;
+      return "tie";
     }
+  }
+}
+
+function displayRoundWinner(human, comp) {
+  let winner = determineRoundWinner(human, comp);
+  if (winner === "human") {
+    prompt("You win!");
+  } else if (winner === "computer") {
+    prompt("Computer wins!");
+  } else {
+    prompt("It's a tie!");
   }
 }
 
