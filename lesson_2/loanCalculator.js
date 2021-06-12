@@ -2,8 +2,8 @@ const readline = require("readline-sync");
 
 let loanAmount;
 let apr;
-let loanDurationInYears;
-let additionalLoanDurationMonths;
+let yearsInLoanTerm;
+let additionalMonthsInLoanTerm;
 
 function printGreeting() {
   console.log("******************************************");
@@ -43,43 +43,42 @@ function getAPR() {
   }
 }
 
-function getLoanDurationInYears() {
+function getYearsInLoanTerm() {
   prompt(
     "Enter the number of years in the loan term (you will be asked for additional months in the next step):"
   );
-  loanDurationInYears = readline.question();
+  yearsInLoanTerm = readline.question();
 
-  while (invalidInput(loanDurationInYears)) {
+  while (invalidInput(yearsInLoanTerm)) {
     prompt("Hmm... that is not a valid entry. Please try again:");
-    loanDurationInYears = readline.question();
+    yearsInLoanTerm = readline.question();
   }
 }
 
 function getAdditionalLoanDurationMonths() {
   prompt("Enter the remaining months, if any, in the loan term:");
 
-  additionalLoanDurationMonths = readline.question();
+  additionalMonthsInLoanTerm = readline.question();
 
-  while (invalidInput(additionalLoanDurationMonths)) {
+  while (invalidInput(additionalMonthsInLoanTerm)) {
     prompt("Hmm... that is not a valid entry. Please try again:");
-    additionalLoanDurationMonths = readline.question();
+    additionalMonthsInLoanTerm = readline.question();
   }
 }
 
 function calculateMonthlyPayment(
   loanAmount,
   apr,
-  loanDurationInYears,
-  additionalLoanDurationMonths
+  yearsInLoanTerm,
+  additionalMonthsInLoanTerm
 ) {
   loanAmount = Number(loanAmount);
   apr = Number(apr);
-  loanDurationInYears = Number(loanDurationInYears);
-  additionalLoanDurationMonths = Number(additionalLoanDurationMonths);
+  yearsInLoanTerm = Number(yearsInLoanTerm);
+  additionalMonthsInLoanTerm = Number(additionalMonthsInLoanTerm);
 
   let monthlyInterestRate = apr / 100 / 12;
-  let durationInMonths =
-    loanDurationInYears * 12 + additionalLoanDurationMonths;
+  let durationInMonths = yearsInLoanTerm * 12 + additionalMonthsInLoanTerm;
   if (apr === 0) {
     return loanAmount / durationInMonths;
   } else {
@@ -110,15 +109,15 @@ while (true) {
 
   getAPR();
 
-  getLoanDurationInYears();
+  getYearsInLoanTerm();
 
   getAdditionalLoanDurationMonths();
 
   let monthlyPayment = calculateMonthlyPayment(
     loanAmount,
     apr,
-    loanDurationInYears,
-    additionalLoanDurationMonths
+    yearsInLoanTerm,
+    additionalMonthsInLoanTerm
   );
 
   prompt(`Your monthly payment is: $${monthlyPayment.toFixed(2)}\n`);
