@@ -15,7 +15,7 @@ function prompt(message) {
 }
 
 function invalidInput(number) {
-  return Number.isNaN(Number(number)) || Number(number) < 1 || number === "";
+  return Number.isNaN(Number(number)) || Number(number) < 0 || number === "";
 }
 
 function getLoanAmount() {
@@ -51,8 +51,12 @@ function getLoanDurationInYears() {
 }
 
 function calculateMonthlyPayment(loanAmount, apr, loanDurationInYears) {
-  let monthlyInterestRate = apr / 100 / 12;
-  let durationInMonths = loanDurationInYears * 12;
+  loanAmount = Number(loanAmount);
+  apr = Number(apr);
+  loanDurationInYears = Number(loanDurationInYears);
+
+  let monthlyInterestRate = Number(apr) / 100 / 12;
+  let durationInMonths = Number(loanDurationInYears) * 12;
 
   if (apr === 0) {
     return loanAmount / durationInMonths;
