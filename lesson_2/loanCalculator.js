@@ -20,7 +20,7 @@ function invalidInput(number) {
 }
 
 function getLoanAmount() {
-  prompt("Enter the amount of the loan without the dollar sign ($):");
+  prompt("Enter the amount of the loan WITHOUT the dollar sign ($):");
   loanAmount = readline.question();
 
   while (invalidInput(loanAmount)) {
@@ -31,7 +31,7 @@ function getLoanAmount() {
 
 function getAPR() {
   prompt(
-    "Enter the Annual Percentage Rate (APR) without the percent sign (%):"
+    "Enter the Annual Percentage Rate (APR) WITHOUT the percent sign (%):"
   );
   apr = readline.question();
 
@@ -42,17 +42,19 @@ function getAPR() {
 }
 
 function getLoanDurationInYears() {
-  prompt("Enter the loan duration in years:");
+  prompt(
+    "Enter the number of years in the loan term (you will be asked for additional months in the next step):"
+  );
   loanDurationInYears = readline.question();
 
   while (invalidInput(loanDurationInYears)) {
-    prompt("Hmm... that is not a valid loan duration. Please try again:");
+    prompt("Hmm... that is not a valid entry. Please try again:");
     loanDurationInYears = readline.question();
   }
 }
 
 function getAdditionalLoanDurationMonths() {
-  prompt("Enter the remaining months of the loan duration:");
+  prompt("Enter the remaining months, if any, in the loan term:");
 
   additionalLoanDurationMonths = readline.question();
 
