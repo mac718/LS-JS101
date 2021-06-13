@@ -1,17 +1,5 @@
 const readline = require("readline-sync");
 const VALID_CHOICES = ["rock", "paper", "scissors", "lizard", "spock"];
-// const WINNING_COMBOS = [
-//   ["rock", "scissors"],
-//   ["scissors", "paper"],
-//   ["paper", "rock"],
-//   ["rock", "lizard"],
-//   ["lizard", "spock"],
-//   ["spock", "scissors"],
-//   ["scissors", "lizard"],
-//   ["lizard", "paper"],
-//   ["paper", "spock"],
-//   ["spock", "rock"],
-// ];
 const WINNING_COMBOS = {
   rock: ["scissors", "lizard"],
   paper: ["rock", "spock"],
@@ -83,20 +71,6 @@ function determineRoundWinner(human, comp) {
     computerWins += 1;
     return "computer";
   }
-  //   for (let i = 0; i < WINNING_COMBOS.length; i++) {
-  //     if (human === WINNING_COMBOS[i][0] && comp === WINNING_COMBOS[i][1]) {
-  //       humanWins += 1;
-  //       return "human";
-  //     } else if (
-  //       comp === WINNING_COMBOS[i][0] &&
-  //       human === WINNING_COMBOS[i][1]
-  //     ) {
-  //       computerWins += 1;
-  //       return "computer";
-  //     } else if (comp === human) {
-  //       return "tie";
-  //     }
-  //   }
 }
 
 function displayRoundWinner(human, comp) {
@@ -135,10 +109,18 @@ while (true) {
 
   prompt("Do you want to play again (y/n)?");
   let answer = readline.question().toLowerCase();
-  while (answer[0] !== "n" && answer[0] !== "y") {
+  while (
+    answer.toLocaleLowerCase() !== "y" &&
+    answer.toLocaleLowerCase() !== "n"
+  ) {
     prompt('Please enter "y" or "n".');
     answer = readline.question().toLowerCase();
   }
 
-  if (answer[0] !== "y") break;
+  if (answer.toLocaleLowerCase() !== "y") {
+    console.log("***********************");
+    console.log("* Thanks for playing! *");
+    console.log("***********************");
+    break;
+  }
 }
