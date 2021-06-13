@@ -124,15 +124,12 @@ while (true) {
 
   prompt("Do you want to play again (y/n)?");
   let answer = readline.question().toLowerCase();
-  while (
-    answer.toLocaleLowerCase() !== "y" &&
-    answer.toLocaleLowerCase() !== "n"
-  ) {
+  while (answer.toLowerCase() !== "y" && answer.toLowerCase() !== "n") {
     prompt('Please enter "y" or "n".');
     answer = readline.question().toLowerCase();
   }
 
-  if (answer.toLocaleLowerCase() !== "y") {
+  if (answer.toLowerCase() !== "y") {
     console.log("***********************");
     console.log("* Thanks for playing! *");
     console.log("***********************");
