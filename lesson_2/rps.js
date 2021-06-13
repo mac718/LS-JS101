@@ -14,8 +14,8 @@ function playerWins(choice, computerChoice) {
 
 const ROUNDS_FOR_WIN = 3;
 
-let humanWins = 0;
-let computerWins = 0;
+let playerWinTotal = 0;
+let computerWinTotal = 0;
 
 function prompt(message) {
   console.log(`=> ${message}`);
@@ -33,8 +33,8 @@ function displayGreeting() {
   console.log("**********************************************************\n");
 }
 
-function handleChoiceAbbreviation(humanChoice) {
-  switch (humanChoice.toLowerCase()) {
+function handleChoiceAbbreviation(playerChoice) {
+  switch (playerChoice.toLowerCase()) {
     case "r":
       return "rock";
     case "p":
@@ -48,7 +48,7 @@ function handleChoiceAbbreviation(humanChoice) {
   }
 }
 
-function getHumanChoice() {
+function getPlayerChoice() {
   prompt(`Choose one: ${VALID_CHOICES.join(", ")}`);
   let choice = readline.question().toLowerCase();
   if (choice.length <= 2) choice = handleChoiceAbbreviation(choice);
@@ -61,51 +61,55 @@ function getHumanChoice() {
   return choice;
 }
 
-function determineRoundWinner(human, comp) {
-  if (playerWins(human, comp)) {
-    humanWins += 1;
-    return "human";
-  } else if (human === comp) {
+function determineRoundWinner(player, comp) {
+  if (playerWins(player, comp)) {
+    playerWinTotal += 1;
+    return "player";
+  } else if (player === comp) {
     return "tie";
   } else {
-    computerWins += 1;
+    computerWinTotal += 1;
     return "computer";
   }
 }
 
-function displayRoundWinner(human, comp) {
-  let winner = determineRoundWinner(human, comp);
-  if (winner === "human") {
-    prompt(`You win! You: ${humanWins}, Computer: ${computerWins}\n`);
+function displayRoundWinner(player, comp) {
+  let winner = determineRoundWinner(player, comp);
+  if (winner === "player") {
+    prompt(`You win! You: ${playerWinTotal}, Computer: ${computerWinTotal}\n`);
   } else if (winner === "computer") {
-    prompt(`Computer wins! You: ${humanWins}, Computer: ${computerWins}\n`);
+    prompt(
+      `Computer wins! You: ${playerWinTotal}, Computer: ${computerWinTotal}\n`
+    );
   } else {
-    prompt(`It's a tie! You: ${humanWins}, Computer: ${computerWins}\n`);
+    prompt(
+      `It's a tie! You: ${playerWinTotal}, Computer: ${computerWinTotal}\n`
+    );
   }
 }
 
 while (true) {
   displayGreeting();
 
-  while (humanWins < ROUNDS_FOR_WIN && computerWins < ROUNDS_FOR_WIN) {
-    let humanChoice = getHumanChoice();
+  while (playerWinTotal < ROUNDS_FOR_WIN && computerWinTotal < ROUNDS_FOR_WIN) {
+    let playerChoice = getPlayerChoice();
 
     let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
     let computerChoice = VALID_CHOICES[randomIndex];
 
-    prompt(`You chose ${humanChoice}, computer chose ${computerChoice}`);
+    prompt(`You chose ${playerChoice}, computer chose ${computerChoice}`);
 
-    displayRoundWinner(humanChoice, computerChoice);
+    displayRoundWinner(playerChoice, computerChoice);
   }
 
-  if (humanWins === ROUNDS_FOR_WIN) {
+  if (playerWinTotal === ROUNDS_FOR_WIN) {
     prompt("You win the match!");
   } else {
     prompt("Computer wins the match!");
   }
 
-  humanWins = 0;
-  computerWins = 0;
+  playerWinTotal = 0;
+  computerWinTotal = 0;
 
   prompt("Do you want to play again (y/n)?");
   let answer = readline.question().toLowerCase();
