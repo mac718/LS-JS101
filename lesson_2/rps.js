@@ -22,6 +22,18 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
+function displayGreeting() {
+  console.log("**********************************************************");
+  console.log("*                  Welcome to RPSLS!                     *");
+  console.log("*                                                        *");
+  console.log("* Enter 'rock', 'paper', 'scissors', 'lizard' or 'spock' *");
+  console.log("* or 'r', 'p', 'sc', 'l', 'sp', respectively when        *");
+  console.log("* prompted. The computer will then make its selection    *");
+  console.log("* and a winner will be declared for that round.          *");
+  console.log("* The first to win 3 rounds wins the match. Enjoy!       *");
+  console.log("**********************************************************\n");
+}
+
 function handleChoiceAbbreviation(humanChoice) {
   switch (humanChoice.toLowerCase()) {
     case "r":
@@ -79,6 +91,8 @@ function displayRoundWinner(human, comp) {
 }
 
 while (true) {
+  displayGreeting();
+
   while (humanWins < ROUNDS_FOR_WIN && computerWins < ROUNDS_FOR_WIN) {
     let humanChoice = getHumanChoice();
 
