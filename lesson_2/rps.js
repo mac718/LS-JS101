@@ -12,10 +12,6 @@ const ROUNDS_FOR_WIN = 3;
 let playerWinTotal = 0;
 let computerWinTotal = 0;
 
-function playerWins(choice, computerChoice) {
-  return WINNING_COMBOS[choice].includes(computerChoice);
-}
-
 function prompt(message) {
   console.log(`=> ${message}`);
 }
@@ -33,18 +29,25 @@ function displayGreeting() {
 }
 
 function handleChoiceAbbreviation(playerChoice) {
+  let option;
   switch (playerChoice.toLowerCase()) {
     case "r":
-      return "rock";
+      option = "rock";
+      break;
     case "p":
-      return "paper";
+      option = "paper";
+      break;
     case "sc":
-      return "scissors";
+      option = "scissors";
+      break;
     case "l":
-      return "lizard";
+      option = "lizard";
+      break;
     case "sp":
-      return "spock";
+      option = "spock";
+      break;
   }
+  return option;
 }
 
 function getPlayerChoice() {
@@ -70,6 +73,10 @@ function determineRoundWinner(player, comp) {
     computerWinTotal += 1;
     return "computer";
   }
+}
+
+function playerWins(choice, computerChoice) {
+  return WINNING_COMBOS[choice].includes(computerChoice);
 }
 
 function displayRoundWinner(player, comp) {
@@ -98,7 +105,12 @@ while (true) {
 
     prompt(`You chose ${playerChoice}, computer chose ${computerChoice}`);
 
-    displayRoundWinner(playerChoice, computerChoice);
+    let winner = displayRoundWinner(playerChoice, computerChoice);
+    if (winner === "player") {
+      playerWinTotal += 1;
+    } else if (winner === "computer") {
+      computerWinTotal += 1;
+    }
   }
 
   if (playerWinTotal === ROUNDS_FOR_WIN) {
