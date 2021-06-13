@@ -65,12 +65,10 @@ function getPlayerChoice() {
 
 function determineRoundWinner(player, comp) {
   if (playerWins(player, comp)) {
-    playerWinTotal += 1;
     return "player";
   } else if (player === comp) {
     return "tie";
   } else {
-    computerWinTotal += 1;
     return "computer";
   }
 }
@@ -79,8 +77,7 @@ function playerWins(choice, computerChoice) {
   return WINNING_COMBOS[choice].includes(computerChoice);
 }
 
-function displayRoundWinner(player, comp) {
-  let winner = determineRoundWinner(player, comp);
+function displayRoundWinner(winner) {
   if (winner === "player") {
     prompt(`You win! You: ${playerWinTotal}, Computer: ${computerWinTotal}\n`);
   } else if (winner === "computer") {
@@ -105,12 +102,15 @@ while (true) {
 
     prompt(`You chose ${playerChoice}, computer chose ${computerChoice}`);
 
-    let winner = displayRoundWinner(playerChoice, computerChoice);
+    let winner = determineRoundWinner(playerChoice, computerChoice);
+
     if (winner === "player") {
       playerWinTotal += 1;
     } else if (winner === "computer") {
       computerWinTotal += 1;
     }
+
+    displayRoundWinner(winner);
   }
 
   if (playerWinTotal === ROUNDS_FOR_WIN) {
