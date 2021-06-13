@@ -13,6 +13,8 @@ const WINNING_COMBOS = [
   ["spock", "rock"],
 ];
 
+const ROUNDS_FOR_WIN = 3;
+
 let humanWins = 0;
 let computerWins = 0;
 
@@ -20,13 +22,30 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
+function handleChoiceAbbreviation(humanChoice) {
+  switch (humanChoice.toLowerCase()) {
+    case "r":
+      return "rock";
+    case "p":
+      return "paper";
+    case "sc":
+      return "scissors";
+    case "l":
+      return "lizard";
+    case "sp":
+      return "spock";
+  }
+}
+
 function getHumanChoice() {
   prompt(`Choose one: ${VALID_CHOICES.join(", ")}`);
   let choice = readline.question();
+  if (choice.length <= 2) choice = handleChoiceAbbreviation(choice);
 
   while (!VALID_CHOICES.includes(choice)) {
     prompt("That's not a valid choice");
     choice = readline.question();
+    if (choice.length <= 2) choice = handleChoiceAbbreviation(choice);
   }
   return choice;
 }
@@ -60,7 +79,7 @@ function displayRoundWinner(human, comp) {
 }
 
 while (true) {
-  while (humanWins < 5 && computerWins < 5) {
+  while (humanWins < ROUNDS_FOR_WIN && computerWins < ROUNDS_FOR_WIN) {
     let humanChoice = getHumanChoice();
 
     let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
