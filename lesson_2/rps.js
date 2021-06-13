@@ -7,15 +7,14 @@ const WINNING_COMBOS = {
   lizard: ["paper", "spock"],
   spock: ["rock", "scissors"],
 };
-
-function playerWins(choice, computerChoice) {
-  return WINNING_COMBOS[choice].includes(computerChoice);
-}
-
 const ROUNDS_FOR_WIN = 3;
 
 let playerWinTotal = 0;
 let computerWinTotal = 0;
+
+function playerWins(choice, computerChoice) {
+  return WINNING_COMBOS[choice].includes(computerChoice);
+}
 
 function prompt(message) {
   console.log(`=> ${message}`);
