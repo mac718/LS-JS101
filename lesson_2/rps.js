@@ -1,17 +1,28 @@
 const readline = require("readline-sync");
 const VALID_CHOICES = ["rock", "paper", "scissors", "lizard", "spock"];
-const WINNING_COMBOS = [
-  ["rock", "scissors"],
-  ["scissors", "paper"],
-  ["paper", "rock"],
-  ["rock", "lizard"],
-  ["lizard", "spock"],
-  ["spock", "scissors"],
-  ["scissors", "lizard"],
-  ["lizard", "paper"],
-  ["paper", "spock"],
-  ["spock", "rock"],
-];
+// const WINNING_COMBOS = [
+//   ["rock", "scissors"],
+//   ["scissors", "paper"],
+//   ["paper", "rock"],
+//   ["rock", "lizard"],
+//   ["lizard", "spock"],
+//   ["spock", "scissors"],
+//   ["scissors", "lizard"],
+//   ["lizard", "paper"],
+//   ["paper", "spock"],
+//   ["spock", "rock"],
+// ];
+const WINNING_COMBOS = {
+  rock: ["scissors", "lizard"],
+  paper: ["rock", "spock"],
+  scissors: ["paper", "lizard"],
+  lizard: ["paper", "spock"],
+  spock: ["rock", "scissors"],
+};
+
+function playerWins(choice, computerChoice) {
+  return WINNING_COMBOS[choice].includes(computerChoice);
+}
 
 const ROUNDS_FOR_WIN = 3;
 
@@ -51,42 +62,51 @@ function handleChoiceAbbreviation(humanChoice) {
 
 function getHumanChoice() {
   prompt(`Choose one: ${VALID_CHOICES.join(", ")}`);
-  let choice = readline.question();
+  let choice = readline.question().toLowerCase();
   if (choice.length <= 2) choice = handleChoiceAbbreviation(choice);
 
   while (!VALID_CHOICES.includes(choice)) {
     prompt("That's not a valid choice");
-    choice = readline.question();
+    choice = readline.question().toLowerCase();
     if (choice.length <= 2) choice = handleChoiceAbbreviation(choice);
   }
   return choice;
 }
 
 function determineRoundWinner(human, comp) {
-  for (let i = 0; i < WINNING_COMBOS.length; i++) {
-    if (human === WINNING_COMBOS[i][0] && comp === WINNING_COMBOS[i][1]) {
-      humanWins += 1;
-      return "human";
-    } else if (
-      comp === WINNING_COMBOS[i][0] &&
-      human === WINNING_COMBOS[i][1]
-    ) {
-      computerWins += 1;
-      return "computer";
-    } else if (comp === human) {
-      return "tie";
-    }
+  if (playerWins(human, comp)) {
+    humanWins += 1;
+    return "human";
+  } else if (human === comp) {
+    return "tie";
+  } else {
+    computerWins += 1;
+    return "computer";
   }
+  //   for (let i = 0; i < WINNING_COMBOS.length; i++) {
+  //     if (human === WINNING_COMBOS[i][0] && comp === WINNING_COMBOS[i][1]) {
+  //       humanWins += 1;
+  //       return "human";
+  //     } else if (
+  //       comp === WINNING_COMBOS[i][0] &&
+  //       human === WINNING_COMBOS[i][1]
+  //     ) {
+  //       computerWins += 1;
+  //       return "computer";
+  //     } else if (comp === human) {
+  //       return "tie";
+  //     }
+  //   }
 }
 
 function displayRoundWinner(human, comp) {
   let winner = determineRoundWinner(human, comp);
   if (winner === "human") {
-    prompt(`You win! You: ${humanWins}, Computer: ${computerWins}`);
+    prompt(`You win! You: ${humanWins}, Computer: ${computerWins}\n`);
   } else if (winner === "computer") {
-    prompt(`Computer wins! You: ${humanWins}, Computer: ${computerWins}`);
+    prompt(`Computer wins! You: ${humanWins}, Computer: ${computerWins}\n`);
   } else {
-    prompt(`It's a tie! You: ${humanWins}, Computer: ${computerWins}`);
+    prompt(`It's a tie! You: ${humanWins}, Computer: ${computerWins}\n`);
   }
 }
 
@@ -104,7 +124,7 @@ while (true) {
     displayRoundWinner(humanChoice, computerChoice);
   }
 
-  if (humanWins === 5) {
+  if (humanWins === ROUNDS_FOR_WIN) {
     prompt("You win the match!");
   } else {
     prompt("Computer wins the match!");
