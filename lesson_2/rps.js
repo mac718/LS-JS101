@@ -51,7 +51,9 @@ function handleChoiceAbbreviation(playerChoice) {
 }
 
 function getPlayerChoice() {
-  prompt(`Choose one: ${VALID_CHOICES.join(", ")}`);
+  prompt(
+    `Choose one: ${VALID_CHOICES.join(", ")} or r, p, sc, l, sp, respectively.`
+  );
   let choice = readline.question().toLowerCase();
   if (choice.length <= 2) choice = handleChoiceAbbreviation(choice);
 
