@@ -4,6 +4,7 @@ const HUMAN_MARKER = "X";
 const COMPUTER_MARKER = "O";
 
 function displayBoard(board) {
+  console.clear();
   console.log("");
   console.log("     |     |");
   console.log(`  ${board["1"]}  |  ${board["2"]}  |  ${board["3"]}`);
