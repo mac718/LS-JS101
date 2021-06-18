@@ -36,10 +36,10 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
-function joinOr(squares) {
+function joinOr(squares, delimiter = ",", conjunction = "or") {
   return (
     squares.slice(0, squares.length - 1).join(", ") +
-    `, or ${squares[squares.length - 1]}`
+    `${delimiter} ${conjunction} ${squares[squares.length - 1]}`
   );
 }
 
