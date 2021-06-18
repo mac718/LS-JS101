@@ -36,6 +36,13 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
+function joinOr(squares) {
+  return (
+    squares.slice(0, squares.length - 1).join(", ") +
+    `, or ${squares[squares.length - 1]}`
+  );
+}
+
 function emptySquares(board) {
   return Object.keys(board).filter((key) => board[key] === INITIAL_MARKER);
 }
@@ -45,8 +52,8 @@ function playerChoosesSquare(board) {
 
   while (true) {
     prompt(
-      `Select the square you would like to mark (${emptySquares(board).join(
-        ", "
+      `Select the square you would like to mark (${joinOr(
+        emptySquares(board)
       )}):`
     );
     square = readline.question();
