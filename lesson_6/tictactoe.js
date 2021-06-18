@@ -106,20 +106,26 @@ function someoneWon(board) {
 }
 
 let board = initializeBoard();
-
 while (true) {
+  while (true) {
+    displayBoard(board);
+
+    playerChoosesSquare(board);
+    if (someoneWon(board) || boardFull(board)) break;
+
+    computerChoosesSquare(board);
+    if (someoneWon(board) || boardFull(board)) break;
+  }
   displayBoard(board);
 
-  playerChoosesSquare(board);
-  if (someoneWon(board) || boardFull(board)) break;
-
-  computerChoosesSquare(board);
-  if (someoneWon(board) || boardFull(board)) break;
+  if (someoneWon(board)) {
+    prompt(`${detectWinner(board)} won!`);
+  } else {
+    console.log("It's a tie!");
+  }
+  prompt("Play again? (y|n)");
+  let answer = readline.question();
+  if (answer !== "y") break;
 }
-displayBoard(board);
 
-if (someoneWon(board)) {
-  prompt(`${detectWinner(board)} won!`);
-} else {
-  console.log("It's a tie!");
-}
+prompt("Thanks for playing Tic Tac Toe!");
