@@ -37,10 +37,19 @@ function prompt(message) {
 }
 
 function joinOr(squares, delimiter = ",", conjunction = "or") {
-  return (
-    squares.slice(0, squares.length - 1).join(", ") +
-    `${delimiter} ${conjunction} ${squares[squares.length - 1]}`
-  );
+  switch (squares.length) {
+    case 0:
+      return "";
+    case 1:
+      return squares[0];
+    case 2:
+      return squares.join(` ${conjunction} `);
+    default:
+      return (
+        squares.slice(0, squares.length - 1).join(", ") +
+        `${delimiter} ${conjunction} ${squares[squares.length - 1]}`
+      );
+  }
 }
 
 function emptySquares(board) {
@@ -56,7 +65,7 @@ function playerChoosesSquare(board) {
         emptySquares(board)
       )}):`
     );
-    square = readline.question();
+    square = readline.question().trim();
 
     if (emptySquares(board).includes(square)) break;
 
@@ -112,8 +121,8 @@ function someoneWon(board) {
   return !!detectWinner(board);
 }
 
-let board = initializeBoard();
 while (true) {
+  let board = initializeBoard();
   while (true) {
     displayBoard(board);
 
