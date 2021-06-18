@@ -29,6 +29,15 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
+function playerChoosesSquare(board) {
+  prompt("Select the square you would like to mark (1-9):");
+  let playerChoice = readline.question();
+
+  board[playerChoice] = "X";
+}
+
 let board = initializeBoard();
 
+displayBoard(board);
+playerChoosesSquare(board);
 displayBoard(board);
