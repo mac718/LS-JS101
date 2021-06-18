@@ -2,6 +2,7 @@ const readline = require("readline-sync");
 const INITIAL_MARKER = " ";
 const HUMAN_MARKER = "X";
 const COMPUTER_MARKER = "O";
+const ROUNDS_FOR_MATCH_WIN = 5;
 
 function displayBoard(board) {
   console.clear();
@@ -120,25 +121,38 @@ function detectWinner(board) {
 function someoneWon(board) {
   return !!detectWinner(board);
 }
-
+let computerWins = 0;
+let playerWins = 0;
 while (true) {
-  let board = initializeBoard();
-  while (true) {
+  while (
+    playerWins < ROUNDS_FOR_MATCH_WIN &&
+    computerWins < ROUNDS_FOR_MATCH_WIN
+  ) {
+    let board = initializeBoard();
+
+    while (true) {
+      displayBoard(board);
+
+      playerChoosesSquare(board);
+      if (someoneWon(board) || boardFull(board)) break;
+
+      computerChoosesSquare(board);
+      if (someoneWon(board) || boardFull(board)) break;
+    }
     displayBoard(board);
 
-    playerChoosesSquare(board);
-    if (someoneWon(board) || boardFull(board)) break;
-
-    computerChoosesSquare(board);
-    if (someoneWon(board) || boardFull(board)) break;
+    if (someoneWon(board)) {
+      let winner = detectWinner(board);
+      prompt(`${winner} won!`);
+      winner === "Player" ? (playerWins += 1) : (computerWins += 1);
+    } else {
+      console.log("It's a tie!");
+    }
+    console.log(`player: ${playerWins}; computer: ${computerWins}`);
   }
-  displayBoard(board);
 
-  if (someoneWon(board)) {
-    prompt(`${detectWinner(board)} won!`);
-  } else {
-    console.log("It's a tie!");
-  }
+  playerWins = 0;
+  computerWins = 0;
   prompt("Play again? (y|n)");
   let answer = readline.question();
   if (answer !== "y") break;
