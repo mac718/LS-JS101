@@ -30,10 +30,22 @@ function prompt(message) {
 }
 
 function playerChoosesSquare(board) {
-  prompt("Select the square you would like to mark (1-9):");
-  let playerChoice = readline.question();
+  let square;
 
-  board[playerChoice] = "X";
+  let emptySquares = Object.keys(board).filter((key) => board[key] === " ");
+
+  while (true) {
+    prompt("Select the square you would like to mark (1-9):");
+    square = readline.question();
+
+    if (emptySquares.includes(square)) {
+      break;
+    } else {
+      prompt("Sorry, that is not a valid choice.");
+    }
+  }
+
+  board[square] = "X";
 }
 
 let board = initializeBoard();
