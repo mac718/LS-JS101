@@ -99,10 +99,11 @@ function findAtRiskSquare(board) {
     let index;
 
     if (playerMarks.length === 2) {
-      vulnerable = line;
+      // vulnerable = line;
       index = values.indexOf(" ");
 
-      return [vulnerable, index];
+      // return [vulnerable, index];
+      return WINNING_LINES[line][index];
     }
 
     return null;
