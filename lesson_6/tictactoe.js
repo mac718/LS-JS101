@@ -95,25 +95,24 @@ function findAtRiskSquare(board) {
     ];
     let playerMarks = values.filter((value) => value === HUMAN_MARKER);
 
-    let vulnerable;
     let index;
 
     if (playerMarks.length === 2) {
-      // vulnerable = line;
       index = values.indexOf(" ");
-
-      // return [vulnerable, index];
       return WINNING_LINES[line][index];
     }
-
-    return null;
   }
+  return null;
 }
 
 function computerChoosesSquare(board) {
-  let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
+  if (findAtRiskSquare(board)) {
+    board[findAtRiskSquare(board)] = COMPUTER_MARKER;
+  } else {
+    let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
 
-  board[emptySquares(board)[randomIndex]] = COMPUTER_MARKER;
+    board[emptySquares(board)[randomIndex]] = COMPUTER_MARKER;
+  }
 }
 
 function boardFull(board) {
