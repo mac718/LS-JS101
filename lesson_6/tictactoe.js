@@ -3,9 +3,19 @@ const INITIAL_MARKER = " ";
 const HUMAN_MARKER = "X";
 const COMPUTER_MARKER = "O";
 const ROUNDS_FOR_MATCH_WIN = 5;
+const WINNING_LINES = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+  [1, 5, 9],
+  [3, 5, 7],
+  [1, 4, 7],
+  [2, 5, 8],
+  [3, 6, 9],
+];
 
 function displayBoard(board) {
-  console.clear();
+  //console.clear();
 
   console.log(`You are ${HUMAN_MARKER}. Computer is ${COMPUTER_MARKER}.`);
 
@@ -76,6 +86,29 @@ function playerChoosesSquare(board) {
   board[square] = HUMAN_MARKER;
 }
 
+function findAtRiskSquare(board) {
+  for (let line = 0; line < WINNING_LINES.length; line++) {
+    let values = [
+      board[WINNING_LINES[line][0]],
+      board[WINNING_LINES[line][1]],
+      board[WINNING_LINES[line][2]],
+    ];
+    let playerMarks = values.filter((value) => value === HUMAN_MARKER);
+
+    let vulnerable;
+    let index;
+
+    if (playerMarks.length === 2) {
+      vulnerable = line;
+      index = values.indexOf(" ");
+
+      return [vulnerable, index];
+    }
+
+    return null;
+  }
+}
+
 function computerChoosesSquare(board) {
   let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
 
@@ -87,19 +120,8 @@ function boardFull(board) {
 }
 
 function detectWinner(board) {
-  let winngingLines = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-    [1, 5, 9],
-    [3, 5, 7],
-    [1, 4, 7],
-    [2, 5, 8],
-    [3, 6, 9],
-  ];
-
-  for (let line = 0; line < winngingLines.length; line++) {
-    let [sq1, sq2, sq3] = winngingLines[line];
+  for (let line = 0; line < WINNING_LINES.length; line++) {
+    let [sq1, sq2, sq3] = WINNING_LINES[line];
 
     if (
       board[sq1] === HUMAN_MARKER &&
