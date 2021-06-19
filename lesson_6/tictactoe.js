@@ -90,33 +90,37 @@ function findAtRiskSquare(board) {
   let winsForComputer = [];
   let winsForPlayer = [];
   for (let line = 0; line < WINNING_LINES.length; line++) {
-    let values = WINNING_LINES[line].map((square) => board[square]);
+    let values = WINNING_LINES[line].map((square) => board[String(square)]);
 
     let playerMarks = values.filter((value) => value === HUMAN_MARKER);
     let computerMarks = values.filter((value) => value === COMPUTER_MARKER);
 
+    console.log("values", values, line);
+
     if (computerMarks.length === 2) {
       let index = values.indexOf(" ");
-      winsForComputer.push(index);
+      winsForComputer.push(WINNING_LINES[line][index]);
+      //return winsForComputer[0];
     } else if (playerMarks.length === 2) {
       let index = values.indexOf(" ");
-      winsForPlayer.push(index);
+      winsForPlayer.push(WINNING_LINES[line][index]);
+      //return winsForPlayer[0];
     }
   }
   if (winsForComputer.length) {
-    console.log(winsForComputer[0]);
     return winsForComputer[0];
   } else if (winsForPlayer.length) {
-    console.log(winsForPlayer[0]);
     return winsForPlayer[0];
   } else {
     return null;
   }
+  //return null;
 }
 
 function computerChoosesSquare(board) {
-  if (findAtRiskSquare(board)) {
-    board[findAtRiskSquare(board)] = COMPUTER_MARKER;
+  let atRisk = findAtRiskSquare(board);
+  if (atRisk) {
+    board[atRisk] = COMPUTER_MARKER;
   } else {
     let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
 
@@ -169,6 +173,7 @@ while (true) {
 
       computerChoosesSquare(board);
       if (someoneWon(board) || boardFull(board)) break;
+      console.log("board", board);
     }
     displayBoard(board);
 
