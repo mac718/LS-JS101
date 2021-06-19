@@ -88,11 +88,8 @@ function playerChoosesSquare(board) {
 
 function findAtRiskSquare(board) {
   for (let line = 0; line < WINNING_LINES.length; line++) {
-    let values = [
-      board[WINNING_LINES[line][0]],
-      board[WINNING_LINES[line][1]],
-      board[WINNING_LINES[line][2]],
-    ];
+    let values = WINNING_LINES[line].map((square) => board[square]);
+
     let playerMarks = values.filter((value) => value === HUMAN_MARKER);
 
     let index;
