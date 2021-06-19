@@ -87,19 +87,31 @@ function playerChoosesSquare(board) {
 }
 
 function findAtRiskSquare(board) {
+  let winsForComputer = [];
+  let winsForPlayer = [];
   for (let line = 0; line < WINNING_LINES.length; line++) {
     let values = WINNING_LINES[line].map((square) => board[square]);
 
     let playerMarks = values.filter((value) => value === HUMAN_MARKER);
+    let computerMarks = values.filter((value) => value === COMPUTER_MARKER);
 
-    let index;
-
-    if (playerMarks.length === 2) {
-      index = values.indexOf(" ");
-      return WINNING_LINES[line][index];
+    if (computerMarks.length === 2) {
+      let index = values.indexOf(" ");
+      winsForComputer.push(index);
+    } else if (playerMarks.length === 2) {
+      let index = values.indexOf(" ");
+      winsForPlayer.push(index);
     }
   }
-  return null;
+  if (winsForComputer.length) {
+    console.log(winsForComputer[0]);
+    return winsForComputer[0];
+  } else if (winsForPlayer.length) {
+    console.log(winsForPlayer[0]);
+    return winsForPlayer[0];
+  } else {
+    return null;
+  }
 }
 
 function computerChoosesSquare(board) {
