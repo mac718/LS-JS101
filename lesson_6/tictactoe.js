@@ -92,19 +92,17 @@ function findAtRiskSquare(board) {
   for (let line = 0; line < WINNING_LINES.length; line++) {
     let values = WINNING_LINES[line].map((square) => board[String(square)]);
 
+    let blanks = values.filter((value) => value === " ");
     let playerMarks = values.filter((value) => value === HUMAN_MARKER);
     let computerMarks = values.filter((value) => value === COMPUTER_MARKER);
 
-    console.log("values", values, line);
-
-    if (computerMarks.length === 2) {
+    if (computerMarks.length === 2 && blanks.length === 1) {
       let index = values.indexOf(" ");
       winsForComputer.push(WINNING_LINES[line][index]);
-      //return winsForComputer[0];
-    } else if (playerMarks.length === 2) {
+    } else if (playerMarks.length === 2 && blanks.length === 1) {
+      console.log("hello");
       let index = values.indexOf(" ");
       winsForPlayer.push(WINNING_LINES[line][index]);
-      //return winsForPlayer[0];
     }
   }
   if (winsForComputer.length) {
@@ -114,11 +112,11 @@ function findAtRiskSquare(board) {
   } else {
     return null;
   }
-  //return null;
 }
 
 function computerChoosesSquare(board) {
   let atRisk = findAtRiskSquare(board);
+  console.log("atrisk", atRisk);
   if (atRisk) {
     board[atRisk] = COMPUTER_MARKER;
   } else {
