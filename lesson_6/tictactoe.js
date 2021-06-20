@@ -192,6 +192,18 @@ function playAgain() {
   return true;
 }
 
+function whoGoesFirst() {
+  prompt("Who should make the first move? (human|computer)");
+  let firstPlayer = readline.question().trim();
+
+  while (!["human", "computer"].includes(firstPlayer.toLowerCase())) {
+    prompt("That's not a valid choice - try again:");
+    firstPlayer = readline.question().trim();
+  }
+
+  return firstPlayer;
+}
+
 let computerWins = 0;
 let playerWins = 0;
 
@@ -202,11 +214,12 @@ while (true) {
     computerWins < ROUNDS_FOR_MATCH_WIN
   ) {
     let board = initializeBoard();
+    let firstMove = whoGoesFirst();
 
     while (true) {
       displayBoard(board);
 
-      if (FIRST_MOVE === "Player") {
+      if (firstMove === "human") {
         playerChoosesSquare(board);
         if (someoneWon(board) || boardFull(board)) break;
 
