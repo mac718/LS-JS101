@@ -149,6 +149,8 @@ function computerChoosesSquare(board) {
   let atRisk = findAtRiskSquare(board);
   if (atRisk) {
     board[atRisk] = COMPUTER_MARKER;
+  } else if (board["5"] === " ") {
+    board["5"] = COMPUTER_MARKER;
   } else {
     let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
 
@@ -221,7 +223,7 @@ while (true) {
     while (true) {
       displayBoard(board);
 
-      if ((FIRST_MOVE = "Player" || firstPlayer === "human")) {
+      if (FIRST_MOVE === "Player" || firstPlayer === "player") {
         playerChoosesSquare(board);
         if (someoneWon(board) || boardFull(board)) break;
 
