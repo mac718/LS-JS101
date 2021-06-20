@@ -184,8 +184,17 @@ function detectWinner(board) {
 function someoneWon(board) {
   return !!detectWinner(board);
 }
+
+function playAgain() {
+  prompt("Play again? (y|n)");
+  let answer = readline.question().trim();
+  if (!["y", "n", "Y", "N"].includes(answer)) return false;
+  return true;
+}
+
 let computerWins = 0;
 let playerWins = 0;
+
 while (true) {
   displayGreeting();
   while (
@@ -227,9 +236,8 @@ while (true) {
 
   playerWins = 0;
   computerWins = 0;
-  prompt("Play again? (y|n)");
-  let answer = readline.question();
-  if (answer !== "y") break;
+
+  if (playAgain()) break;
 }
 
 prompt("Thanks for playing Tic Tac Toe!");
