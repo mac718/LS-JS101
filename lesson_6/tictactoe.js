@@ -3,6 +3,7 @@ const INITIAL_MARKER = " ";
 const HUMAN_MARKER = "X";
 const COMPUTER_MARKER = "O";
 const ROUNDS_FOR_MATCH_WIN = 5;
+const FIRST_MOVE = "Computer";
 const WINNING_LINES = [
   [1, 2, 3],
   [4, 5, 6],
@@ -119,7 +120,6 @@ function findAtRiskSquare(board) {
 
 function computerChoosesSquare(board) {
   let atRisk = findAtRiskSquare(board);
-  console.log("atrisk", atRisk);
   if (atRisk) {
     board[atRisk] = COMPUTER_MARKER;
   } else {
@@ -169,12 +169,20 @@ while (true) {
     while (true) {
       displayBoard(board);
 
-      playerChoosesSquare(board);
-      if (someoneWon(board) || boardFull(board)) break;
+      if (FIRST_MOVE === "Player") {
+        playerChoosesSquare(board);
+        if (someoneWon(board) || boardFull(board)) break;
 
-      computerChoosesSquare(board);
-      if (someoneWon(board) || boardFull(board)) break;
-      console.log("board", board);
+        computerChoosesSquare(board);
+        if (someoneWon(board) || boardFull(board)) break;
+      } else {
+        computerChoosesSquare(board);
+        if (someoneWon(board) || boardFull(board)) break;
+        displayBoard(board);
+
+        playerChoosesSquare(board);
+        if (someoneWon(board) || boardFull(board)) break;
+      }
     }
     displayBoard(board);
 
