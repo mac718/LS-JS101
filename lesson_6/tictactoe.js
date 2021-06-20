@@ -86,6 +86,16 @@ function playerChoosesSquare(board) {
   board[square] = HUMAN_MARKER;
 }
 
+function offensiveOrDefensive(offense, defense) {
+  if (offense.length) {
+    return offense[0];
+  } else if (defense.length) {
+    return defense[0];
+  } else {
+    return null;
+  }
+}
+
 function findAtRiskSquare(board) {
   let winsForComputer = [];
   let winsForPlayer = [];
@@ -100,18 +110,11 @@ function findAtRiskSquare(board) {
       let index = values.indexOf(" ");
       winsForComputer.push(WINNING_LINES[line][index]);
     } else if (playerMarks.length === 2 && blanks.length === 1) {
-      console.log("hello");
       let index = values.indexOf(" ");
       winsForPlayer.push(WINNING_LINES[line][index]);
     }
   }
-  if (winsForComputer.length) {
-    return winsForComputer[0];
-  } else if (winsForPlayer.length) {
-    return winsForPlayer[0];
-  } else {
-    return null;
-  }
+  return offensiveOrDefensive(winsForComputer, winsForPlayer);
 }
 
 function computerChoosesSquare(board) {
