@@ -15,6 +15,33 @@ const WINNING_LINES = [
   [3, 6, 9],
 ];
 
+function displayGreeting() {
+  console.log(
+    "******************************************************************"
+  );
+  console.log(
+    "*                  Welcome to Tic Tac Toe!                       *"
+  );
+  console.log(
+    "*                                                                *"
+  );
+  console.log(
+    "* First choose whether you or the computer makes the first move. *"
+  );
+  console.log(
+    "* Enter the square you wish to mark when prompted - you will     *"
+  );
+  console.log(
+    "* be provided with a list of available squares. The first player *"
+  );
+  console.log(
+    "* to 5 wins wins the match. Enjoy!                               *"
+  );
+  console.log(
+    "******************************************************************"
+  );
+}
+
 function displayBoard(board) {
   //console.clear();
 
@@ -160,6 +187,7 @@ function someoneWon(board) {
 let computerWins = 0;
 let playerWins = 0;
 while (true) {
+  displayGreeting();
   while (
     playerWins < ROUNDS_FOR_MATCH_WIN &&
     computerWins < ROUNDS_FOR_MATCH_WIN
@@ -178,6 +206,7 @@ while (true) {
       } else {
         computerChoosesSquare(board);
         if (someoneWon(board) || boardFull(board)) break;
+
         displayBoard(board);
 
         playerChoosesSquare(board);
