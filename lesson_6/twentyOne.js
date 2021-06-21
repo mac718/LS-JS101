@@ -1,15 +1,31 @@
 const readline = require("readline-sync");
 
-const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "jack", "queen", "king", "ace"];
-const suits = ["clubs", "spades", "hearts", "diamonds"];
+const CARD_VALUES = [
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "jack",
+  "queen",
+  "king",
+  "ace",
+];
+const NUMBER_OF_SUITS = 4;
 
 let deck = [];
 
-suits.forEach((suit) => {
-  values.forEach((value) => {
-    deck.push([value, suit]);
-  });
-});
+for (let suit = 0; suit < NUMBER_OF_SUITS; suit++) {
+  for (let value = 0; value < CARD_VALUES.length; value++) {
+    deck.push(CARD_VALUES[value]);
+  }
+}
+
+console.log(deck.length);
 
 function prompt(message) {
   console.log(`=> ${message}`);
@@ -34,20 +50,32 @@ function hit(deck, hand) {
 function calculateHandTotal(hand) {
   let total = 0;
   hand.forEach((card) => {
-    if (card[0] === "jack" || card[0] === "queen" || card[0] === "king") {
+    if (["jack", "queen", "king"].includes(card)) {
       total += 10;
-    } else if (card[0] === "ace") {
+    } else if (card === "ace") {
       if (total + 11 > 21) {
         total += 1;
       } else {
         total += 11;
       }
     } else {
-      total += card[0];
+      total += Number(card);
     }
   });
 
   return total;
+}
+
+function joinAnd(hand) {
+  if (hand.length === 2) {
+    return `${hand[0]} and ${hand[1]}`;
+  } else {
+    return (
+      hand.slice(0, hand.length - 1).join(", ") +
+      " and, " +
+      hand[hand.length - 1]
+    );
+  }
 }
 
 shuffleDeck(deck);
@@ -58,7 +86,9 @@ let playerTotal = calculateHandTotal(playerHand);
 
 while (true) {
   prompt(
-    `Your hand is ${playerHand}. Your total is ${playerTotal}. Hit or stay?`
+    `Your hand is ${joinAnd(
+      playerHand
+    )}. Your total is ${playerTotal}. Hit or stay?`
   );
   action = readline.question().trim();
 
@@ -69,6 +99,8 @@ while (true) {
   }
   playerTotal = calculateHandTotal(playerHand);
   prompt(
-    `Now your hand is ${playerHand}. Your total is ${playerTotal}. Hit or stay?`
+    `Now your hand is ${joinAnd(
+      playerHand
+    )}. Your total is ${playerTotal}. Hit or stay?`
   );
 }
