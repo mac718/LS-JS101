@@ -3,7 +3,7 @@ const INITIAL_MARKER = " ";
 const HUMAN_MARKER = "X";
 const COMPUTER_MARKER = "O";
 const ROUNDS_FOR_MATCH_WIN = 5;
-const FIRST_MOVE = "Computer";
+const FIRST_MOVE = "choose";
 const WINNING_LINES = [
   [1, 2, 3],
   [4, 5, 6],
@@ -206,38 +206,45 @@ function whoGoesFirst() {
   return firstPlayer;
 }
 
+function chooseSquare(board, currentPlayer) {
+  if (currentPlayer === "player") {
+    playerChoosesSquare(board);
+  } else {
+    computerChoosesSquare(board);
+  }
+}
+
+function alternatePlayer(currentPlayer) {
+  return currentPlayer === "player" ? "computer" : "player";
+}
+
 let computerWins = 0;
 let playerWins = 0;
 
 while (true) {
   displayGreeting();
+
+  let currentPlayer;
+
+  if (FIRST_MOVE === "choose") {
+    currentPlayer = whoGoesFirst();
+  } else if (FIRST_MOVE === "player") {
+    currentPlayer = "player";
+  } else {
+    currentPlayer = "computer";
+  }
   while (
     playerWins < ROUNDS_FOR_MATCH_WIN &&
     computerWins < ROUNDS_FOR_MATCH_WIN
   ) {
     let board = initializeBoard();
-    let firstPlayer;
-
-    if (FIRST_MOVE === "choose") firstMove = whoGoesFirst();
 
     while (true) {
       displayBoard(board);
 
-      if (FIRST_MOVE === "Player" || firstPlayer === "player") {
-        playerChoosesSquare(board);
-        if (someoneWon(board) || boardFull(board)) break;
-
-        computerChoosesSquare(board);
-        if (someoneWon(board) || boardFull(board)) break;
-      } else {
-        computerChoosesSquare(board);
-        if (someoneWon(board) || boardFull(board)) break;
-
-        displayBoard(board);
-
-        playerChoosesSquare(board);
-        if (someoneWon(board) || boardFull(board)) break;
-      }
+      chooseSquare(board, currentPlayer);
+      if (someoneWon(board) || boardFull(board)) break;
+      currentPlayer = alternatePlayer(currentPlayer);
     }
     displayBoard(board);
 
