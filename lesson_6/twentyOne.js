@@ -96,11 +96,18 @@ while (true) {
       playerHand
     )}. Your total is ${playerTotal}. Hit or stay?`
   );
+
+  prompt(
+    `The computer's hand is ${joinAnd(
+      computerHand
+    )}. Your total is ${computerTotal}. Hit or stay?`
+  );
   action = readline.question().trim();
 
-  if (action === "hit") hit(deck, playerHand);
-
-  playerTotal = calculateHandTotal(playerHand);
+  if (action === "hit") {
+    hit(deck, playerHand);
+    playerTotal = calculateHandTotal(playerHand);
+  }
 
   if (action === "stay" || bust(playerTotal)) break;
 }
@@ -117,7 +124,7 @@ while (true) {
   let computerTotal = calculateHandTotal(computerHand);
 
   if (computerTotal < 17) {
-    hit(computerTotal);
+    hit(deck, computerHand);
   }
 
   computerTotal = calculateHandTotal(computerHand);
