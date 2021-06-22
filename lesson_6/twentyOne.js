@@ -1,4 +1,3 @@
-const { property } = require("lodash");
 const readline = require("readline-sync");
 
 const CARD_VALUES = [
@@ -37,6 +36,24 @@ function shuffleDeck(deck) {
     let otherIndex = Math.floor(Math.random() * (index + 1));
     [deck[index], deck[otherIndex]] = [deck[otherIndex], deck[index]];
   }
+}
+
+function displayGreeting() {
+  console.log("**************************************************");
+  console.log("* Welcome to 21! You and the computer will each  *");
+  console.log("* be dealt a hand of 2 cards. Both of your card  *");
+  console.log("* values will be visible, but only one of the    *");
+  console.log("* computer's will be. You'll then be prompted to *");
+  console.log("* hit or stay. Hitting will add another card to  *");
+  console.log("* your total. Try to get as close to 21 without  *");
+  console.log("* going over. Select stay when you are content   *");
+  console.log("* with your current total. The computer will     *");
+  console.log("* then play its hand and a winner will be        *");
+  console.log("* announced. Enjoy!                              *");
+  console.log("**************************************************\n");
+  console.log("Hit any key to continue...");
+
+  readline.question();
 }
 
 function deal(deck) {
@@ -117,6 +134,7 @@ let playerTotal = calculateHandTotal(playerHand);
 let computerHand = deal(deck);
 let computerTotal = calculateHandTotal(computerHand);
 while (true) {
+  displayGreeting();
   while (true) {
     prompt(`The computer's hand is ${computerHand[0]} and unknown card.`);
 
@@ -131,6 +149,7 @@ while (true) {
     if (action === "hit") {
       hit(deck, playerHand);
       playerTotal = calculateHandTotal(playerHand);
+      prompt(`Your total is ${playerTotal}`);
     }
 
     if (action === "stay" || busted(playerTotal)) break;
