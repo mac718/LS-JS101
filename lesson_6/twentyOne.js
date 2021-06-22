@@ -1,3 +1,4 @@
+const { property } = require("lodash");
 const readline = require("readline-sync");
 
 const CARD_VALUES = [
@@ -94,6 +95,19 @@ function displayGameResult(computerTotal, playerTotal) {
   }
 }
 
+function playAgain() {
+  prompt("Would you like to play again? (y|n)");
+  let answer = readline.question().trim();
+
+  while (!["y", "n", "yes", "no"].includes(answer.toLowerCase())) {
+    prompt(
+      "Sorry, that's not a valid response. Would you like to play again? (y|n)"
+    );
+    answer = readline.question().trim();
+  }
+  return answer.toLowerCase();
+}
+
 let deck = createDeck();
 shuffleDeck(deck);
 
@@ -102,42 +116,48 @@ let action;
 let playerTotal = calculateHandTotal(playerHand);
 let computerHand = deal(deck);
 let computerTotal = calculateHandTotal(computerHand);
-
 while (true) {
-  prompt(`The computer's hand is ${computerHand[0]} and unknown card.`);
+  while (true) {
+    prompt(`The computer's hand is ${computerHand[0]} and unknown card.`);
 
-  prompt(
-    `Your hand is ${joinAnd(
-      playerHand
-    )}. Your total is ${playerTotal}. Hit or stay?`
-  );
+    prompt(
+      `Your hand is ${joinAnd(
+        playerHand
+      )}. Your total is ${playerTotal}. Hit or stay?`
+    );
 
-  action = readline.question().trim();
+    action = readline.question().trim();
 
-  if (action === "hit") {
-    hit(deck, playerHand);
-    playerTotal = calculateHandTotal(playerHand);
+    if (action === "hit") {
+      hit(deck, playerHand);
+      playerTotal = calculateHandTotal(playerHand);
+    }
+
+    if (action === "stay" || busted(playerTotal)) break;
   }
 
-  if (action === "stay" || busted(playerTotal)) break;
-}
-
-if (action === "stay") {
-  prompt(`Your total is ${playerTotal}.`);
-}
-
-while (true) {
-  if (busted(playerTotal)) break;
-
-  computerTotal = calculateHandTotal(computerHand);
-
-  if (computerTotal < 17) {
-    hit(deck, computerHand);
+  if (action === "stay") {
+    prompt(`Your total is ${playerTotal}.`);
   }
 
-  computerTotal = calculateHandTotal(computerHand);
-  prompt(`Computer has ${computerTotal} and you have ${playerTotal}`);
+  while (true) {
+    if (busted(playerTotal)) break;
 
-  if (computerTotal >= 17) break;
+    computerTotal = calculateHandTotal(computerHand);
+
+    if (computerTotal < 17) {
+      hit(deck, computerHand);
+    }
+
+    computerTotal = calculateHandTotal(computerHand);
+    prompt(`Computer has ${computerTotal} and you have ${playerTotal}`);
+
+    if (computerTotal >= 17) break;
+  }
+  displayGameResult(computerTotal, playerTotal);
+  if (["n", "no"].includes(playAgain())) break;
 }
-displayGameResult(computerTotal, playerTotal);
+
+console.log("***********************");
+console.log("* Thanks for playing! *");
+console.log("***********************");
