@@ -17,15 +17,15 @@ const CARD_VALUES = [
 ];
 const NUMBER_OF_SUITS = 4;
 
-let deck = [];
-
-for (let suit = 0; suit < NUMBER_OF_SUITS; suit++) {
-  for (let value = 0; value < CARD_VALUES.length; value++) {
-    deck.push(CARD_VALUES[value]);
+function createDeck() {
+  let deck = [];
+  for (let suit = 0; suit < NUMBER_OF_SUITS; suit++) {
+    for (let value = 0; value < CARD_VALUES.length; value++) {
+      deck.push(CARD_VALUES[value]);
+    }
   }
+  return deck;
 }
-
-console.log(deck.length);
 
 function prompt(message) {
   console.log(`=> ${message}`);
@@ -82,6 +82,19 @@ function busted(total) {
   return total > 21;
 }
 
+function displayGameResult(computerTotal, playerTotal) {
+  if (computerTotal > 21) {
+    prompt("Dealer busts; you win!");
+  } else if (computerTotal > playerTotal) {
+    prompt(`Computer wins!`);
+  } else if (playerTotal > 21) {
+    prompt(`You bust; dealer wins!`);
+  } else {
+    prompt("You win!");
+  }
+}
+
+let deck = createDeck();
 shuffleDeck(deck);
 
 let playerHand = deal(deck);
@@ -91,17 +104,14 @@ let computerHand = deal(deck);
 let computerTotal = calculateHandTotal(computerHand);
 
 while (true) {
+  prompt(`The computer's hand is ${computerHand[0]} and unknown card.`);
+
   prompt(
     `Your hand is ${joinAnd(
       playerHand
     )}. Your total is ${playerTotal}. Hit or stay?`
   );
 
-  prompt(
-    `The computer's hand is ${joinAnd(
-      computerHand
-    )}. Your total is ${computerTotal}. Hit or stay?`
-  );
   action = readline.question().trim();
 
   if (action === "hit") {
@@ -130,13 +140,4 @@ while (true) {
 
   if (computerTotal >= 17) break;
 }
-console.log(computerTotal, playerTotal);
-if (computerTotal > 21) {
-  prompt("Dealer busts; you win!");
-} else if (computerTotal > playerTotal) {
-  prompt(`Computer wins!`);
-} else if (playerTotal > 21) {
-  prompt(`You bust; dealer wins!`);
-} else {
-  prompt("You win!");
-}
+displayGameResult(computerTotal, playerTotal);
