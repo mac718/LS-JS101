@@ -66,19 +66,19 @@ function hit(deck, hand) {
 }
 
 function calculateHandTotal(hand) {
+  let nonAces = hand.filter((card) => card !== "ace");
+  let aces = hand.filter((card) => card === "ace");
   let total = 0;
-  hand.forEach((card) => {
+  nonAces.forEach((card) => {
     if (["jack", "queen", "king"].includes(card)) {
       total += 10;
-    } else if (card === "ace") {
-      if (total + 11 > 21) {
-        total += 1;
-      } else {
-        total += 11;
-      }
     } else {
       total += Number(card);
     }
+  });
+
+  aces.forEach((_) => {
+    total + 11 > 21 ? (total += 1) : (total += 11);
   });
 
   return total;
@@ -100,15 +100,23 @@ function busted(total) {
   return total > 21;
 }
 
-function displayGameResult(computerTotal, playerTotal) {
+function displayGameResult(computerTotal, playerTotal, playerHand) {
   if (computerTotal > 21) {
     prompt("Dealer busts; you win!");
   } else if (computerTotal > playerTotal) {
-    prompt(`Computer wins!`);
+    prompt(
+      `You have ${playerTotal} and computer has ${computerTotal}. Computer wins!`
+    );
   } else if (playerTotal > 21) {
-    prompt(`You bust; dealer wins!`);
+    prompt(
+      `You have ${joinAnd(
+        playerHand
+      )} for a total of ${playerTotal}. You bust; dealer wins!`
+    );
   } else {
-    prompt("You win!");
+    prompt(
+      `You have ${playerTotal} and computer has ${computerTotal}.You win!`
+    );
   }
 }
 
@@ -125,15 +133,16 @@ function playAgain() {
   return answer.toLowerCase();
 }
 
-let deck = createDeck();
-shuffleDeck(deck);
-
-let playerHand = deal(deck);
-let action;
-let playerTotal = calculateHandTotal(playerHand);
-let computerHand = deal(deck);
-let computerTotal = calculateHandTotal(computerHand);
 while (true) {
+  let deck = createDeck();
+  shuffleDeck(deck);
+
+  let playerHand = deal(deck);
+  let action;
+  let playerTotal = calculateHandTotal(playerHand);
+  let computerHand = deal(deck);
+  let computerTotal = calculateHandTotal(computerHand);
+
   displayGreeting();
   while (true) {
     prompt(`The computer's hand is ${computerHand[0]} and unknown card.`);
@@ -149,7 +158,6 @@ while (true) {
     if (action === "hit") {
       hit(deck, playerHand);
       playerTotal = calculateHandTotal(playerHand);
-      prompt(`Your total is ${playerTotal}`);
     }
 
     if (action === "stay" || busted(playerTotal)) break;
@@ -169,11 +177,13 @@ while (true) {
     }
 
     computerTotal = calculateHandTotal(computerHand);
-    prompt(`Computer has ${computerTotal} and you have ${playerTotal}`);
+    prompt(
+      `Computer has ${joinAnd(computerHand)} for a total of ${computerTotal}`
+    );
 
     if (computerTotal >= 17) break;
   }
-  displayGameResult(computerTotal, playerTotal);
+  displayGameResult(computerTotal, playerTotal, playerHand);
   if (["n", "no"].includes(playAgain())) break;
 }
 
