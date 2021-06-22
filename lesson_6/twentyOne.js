@@ -78,7 +78,7 @@ function joinAnd(hand) {
   }
 }
 
-function bust(total) {
+function busted(total) {
   return total > 21;
 }
 
@@ -109,19 +109,17 @@ while (true) {
     playerTotal = calculateHandTotal(playerHand);
   }
 
-  if (action === "stay" || bust(playerTotal)) break;
+  if (action === "stay" || busted(playerTotal)) break;
 }
 
 if (action === "stay") {
   prompt(`Your total is ${playerTotal}.`);
-} else {
-  prompt("You bust; dealer wins!");
 }
 
 while (true) {
-  if (bust(playerTotal)) break;
+  if (busted(playerTotal)) break;
 
-  let computerTotal = calculateHandTotal(computerHand);
+  computerTotal = calculateHandTotal(computerHand);
 
   if (computerTotal < 17) {
     hit(deck, computerHand);
@@ -132,13 +130,13 @@ while (true) {
 
   if (computerTotal >= 17) break;
 }
-
+console.log(computerTotal, playerTotal);
 if (computerTotal > 21) {
   prompt("Dealer busts; you win!");
 } else if (computerTotal > playerTotal) {
-  prompt(
-    `Computer has ${computerTotal} and you have ${playerTotal}; Computer wins!`
-  );
+  prompt(`Computer wins!`);
+} else if (playerTotal > 21) {
+  prompt(`You bust; dealer wins!`);
 } else {
-  prompt(`Computer has ${computerTotal} and you have ${playerTotal}; You win!`);
+  prompt("You win!");
 }
