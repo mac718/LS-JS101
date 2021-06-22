@@ -78,11 +78,17 @@ function joinAnd(hand) {
   }
 }
 
+function bust(total) {
+  return total > 21;
+}
+
 shuffleDeck(deck);
 
 let playerHand = deal(deck);
 let action;
 let playerTotal = calculateHandTotal(playerHand);
+let computerHand = deal(deck);
+let computerTotal = calculateHandTotal(computerHand);
 
 while (true) {
   prompt(
@@ -92,15 +98,40 @@ while (true) {
   );
   action = readline.question().trim();
 
-  if (action === "hit") {
-    hit(deck, playerHand);
-  } else if (action === "stay") {
-    break;
-  }
+  if (action === "hit") hit(deck, playerHand);
+
   playerTotal = calculateHandTotal(playerHand);
+
+  if (action === "stay" || bust(playerTotal)) break;
+}
+
+if (action === "stay") {
+  prompt(`Your total is ${playerTotal}.`);
+} else {
+  prompt("You bust; dealer wins!");
+}
+
+while (true) {
+  if (bust(playerTotal)) break;
+
+  let computerTotal = calculateHandTotal(computerHand);
+
+  if (computerTotal < 17) {
+    hit(computerTotal);
+  }
+
+  computerTotal = calculateHandTotal(computerHand);
+  prompt(`Computer has ${computerTotal} and you have ${playerTotal}`);
+
+  if (computerTotal >= 17) break;
+}
+
+if (computerTotal > 21) {
+  prompt("Dealer busts; you win!");
+} else if (computerTotal > playerTotal) {
   prompt(
-    `Now your hand is ${joinAnd(
-      playerHand
-    )}. Your total is ${playerTotal}. Hit or stay?`
+    `Computer has ${computerTotal} and you have ${playerTotal}; Computer wins!`
   );
+} else {
+  prompt(`Computer has ${computerTotal} and you have ${playerTotal}; You win!`);
 }
