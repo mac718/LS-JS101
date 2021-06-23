@@ -17,6 +17,9 @@ const CARD_VALUES = [
 ];
 const NUMBER_OF_SUITS = 4;
 
+let playerWins = 0;
+let dealerWins = 0;
+
 function createDeck() {
   let deck = [];
   for (let suit = 0; suit < NUMBER_OF_SUITS; suit++) {
@@ -102,12 +105,16 @@ function busted(total) {
 
 function determineGameResults(playerTotal, computerTotal) {
   if (busted(playerTotal)) {
+    dealerWins += 1;
     return "PLAYER_BUSTED";
   } else if (busted(computerTotal)) {
+    playerWins += 1;
     return "COMPUTER_BUSTED";
   } else if (playerTotal > computerTotal) {
+    playerWins += 1;
     return "PLAYER_WINS";
   } else if (playerTotal < computerTotal) {
+    dealerWins += 1;
     return "DEALER_WINS";
   } else {
     return "TIE";
@@ -217,6 +224,7 @@ while (true) {
     if (computerTotal >= 17) break;
   }
   displayGameResult(computerTotal, playerTotal, playerHand, computerHand);
+  if (playerWins === 5 || computerWins === 5) break;
   if (["n", "no"].includes(playAgain())) break;
 }
 
