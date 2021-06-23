@@ -100,23 +100,73 @@ function busted(total) {
   return total > 21;
 }
 
-function displayGameResult(computerTotal, playerTotal, playerHand) {
-  if (computerTotal > 21) {
-    prompt("Dealer busts; you win!");
-  } else if (computerTotal > playerTotal) {
-    prompt(
-      `You have ${playerTotal} and computer has ${computerTotal}. Computer wins!`
-    );
-  } else if (playerTotal > 21) {
-    prompt(
-      `You have ${joinAnd(
-        playerHand
-      )} for a total of ${playerTotal}. You bust; dealer wins!`
-    );
+function determineGameResults(playerTotal, computerTotal) {
+  if (busted(playerTotal)) {
+    return "PLAYER_BUSTED";
+  } else if (busted(computerTotal)) {
+    return "COMPUTER_BUSTED";
+  } else if (playerTotal > computerTotal) {
+    return "PLAYER_WINS";
+  } else if (playerTotal < computerTotal) {
+    return "COMPUTER_WINS";
   } else {
-    prompt(
-      `You have ${playerTotal} and computer has ${computerTotal}.You win!`
-    );
+    return "TIE";
+  }
+}
+
+function displayGameResult(
+  computerTotal,
+  playerTotal,
+  playerHand,
+  computerHand
+) {
+  let result = determineGameResults(playerTotal, computerTotal);
+  switch (result) {
+    case "COMPUTER_BUSTED":
+      prompt(
+        `You have ${joinAnd(
+          playerHand
+        )} for a total of ${playerTotal} and the dealer has ${joinAnd(
+          computerHand
+        )} for a total of ${computerTotal}. Dealer busts; You win!`
+      );
+      break;
+    case "PLAYER_BUSTED":
+      prompt(
+        `You have ${joinAnd(
+          playerHand
+        )} for a total of ${playerTotal} and the dealer has ${joinAnd(
+          computerHand
+        )} for a total of ${computerTotal}. You bust; dealer wins!`
+      );
+      break;
+    case "PLAYER_WINS":
+      prompt(
+        `You have ${joinAnd(
+          playerHand
+        )} for a total of ${playerTotal} and the dealer has ${joinAnd(
+          computerHand
+        )} for a total of ${computerTotal}. You win!`
+      );
+      break;
+    case "DEALER_WINS":
+      prompt(
+        `You have ${joinAnd(
+          playerHand
+        )} for a total of ${playerTotal} and the dealer has ${joinAnd(
+          computerHand
+        )} for a total of ${computerTotal}. Dealer wins!`
+      );
+      break;
+    case "TIE":
+      prompt(
+        `You have ${joinAnd(
+          playerHand
+        )} for a total of ${playerTotal} and the dealer has ${joinAnd(
+          computerHand
+        )} for a total of ${computerTotal}. It's a tie!`
+      );
+      break;
   }
 }
 
@@ -190,7 +240,7 @@ while (true) {
 
     if (computerTotal >= 17) break;
   }
-  displayGameResult(computerTotal, playerTotal, playerHand);
+  displayGameResult(computerTotal, playerTotal, playerHand, computerHand);
   if (["n", "no"].includes(playAgain())) break;
 }
 
