@@ -108,7 +108,7 @@ function determineGameResults(playerTotal, computerTotal) {
   } else if (playerTotal > computerTotal) {
     return "PLAYER_WINS";
   } else if (playerTotal < computerTotal) {
-    return "COMPUTER_WINS";
+    return "DEALER_WINS";
   } else {
     return "TIE";
   }
@@ -121,51 +121,27 @@ function displayGameResult(
   computerHand
 ) {
   let result = determineGameResults(playerTotal, computerTotal);
+  const handsAndTotals = `You have ${joinAnd(
+    playerHand
+  )} for a total of ${playerTotal} and the dealer has ${joinAnd(
+    computerHand
+  )} for a total of ${computerTotal}`;
+  console.log(result);
   switch (result) {
     case "COMPUTER_BUSTED":
-      prompt(
-        `You have ${joinAnd(
-          playerHand
-        )} for a total of ${playerTotal} and the dealer has ${joinAnd(
-          computerHand
-        )} for a total of ${computerTotal}. Dealer busts; You win!`
-      );
+      prompt(`${handsAndTotals}. Dealer busts; You win!`);
       break;
     case "PLAYER_BUSTED":
-      prompt(
-        `You have ${joinAnd(
-          playerHand
-        )} for a total of ${playerTotal} and the dealer has ${joinAnd(
-          computerHand
-        )} for a total of ${computerTotal}. You bust; dealer wins!`
-      );
+      prompt(`${handsAndTotals}. You bust; dealer wins!`);
       break;
     case "PLAYER_WINS":
-      prompt(
-        `You have ${joinAnd(
-          playerHand
-        )} for a total of ${playerTotal} and the dealer has ${joinAnd(
-          computerHand
-        )} for a total of ${computerTotal}. You win!`
-      );
+      prompt(`${handsAndTotals}. You win!`);
       break;
     case "DEALER_WINS":
-      prompt(
-        `You have ${joinAnd(
-          playerHand
-        )} for a total of ${playerTotal} and the dealer has ${joinAnd(
-          computerHand
-        )} for a total of ${computerTotal}. Dealer wins!`
-      );
+      prompt(`${handsAndTotals}. Dealer wins!`);
       break;
     case "TIE":
-      prompt(
-        `You have ${joinAnd(
-          playerHand
-        )} for a total of ${playerTotal} and the dealer has ${joinAnd(
-          computerHand
-        )} for a total of ${computerTotal}. It's a tie!`
-      );
+      prompt(`${handsAndTotals}. It's a tie!`);
       break;
   }
 }
