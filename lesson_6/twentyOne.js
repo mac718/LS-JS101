@@ -133,6 +133,20 @@ function playAgain() {
   return answer.toLowerCase();
 }
 
+function getPlayerAction(playerHand, playerTotal) {
+  prompt(
+    `Your hand is ${joinAnd(
+      playerHand
+    )}. Your total is ${playerTotal}. Hit or stay?`
+  );
+
+  return (action = readline.question().trim());
+}
+
+function displayComputerHand(computerHand) {
+  prompt(`The computer's hand is ${computerHand[0]} and unknown card.`);
+}
+
 while (true) {
   let deck = createDeck();
   shuffleDeck(deck);
@@ -145,15 +159,8 @@ while (true) {
 
   displayGreeting();
   while (true) {
-    prompt(`The computer's hand is ${computerHand[0]} and unknown card.`);
-
-    prompt(
-      `Your hand is ${joinAnd(
-        playerHand
-      )}. Your total is ${playerTotal}. Hit or stay?`
-    );
-
-    action = readline.question().trim();
+    displayComputerHand(computerHand);
+    action = getPlayerAction(playerHand, playerTotal);
 
     if (action === "hit") {
       hit(deck, playerHand);
