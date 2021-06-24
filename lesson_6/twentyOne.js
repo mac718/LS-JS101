@@ -165,7 +165,14 @@ function getPlayerAction(playerHand, playerTotal) {
     )}. Your total is ${playerTotal}. Hit or stay?`
   );
 
-  return (action = readline.question().trim());
+  let action = readline.question().trim().toLowerCase();
+
+  while (!["hit", "stay"].includes(action)) {
+    prompt("Sorry, that's not a valid entry. Hit or stay?");
+    action = readline.question().trim().toLowerCase();
+  }
+
+  return action;
 }
 
 function displayComputerHand(computerHand) {
