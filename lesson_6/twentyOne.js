@@ -1,4 +1,3 @@
-const M = require("minimatch");
 const readline = require("readline-sync");
 
 const CARD_VALUES = [
