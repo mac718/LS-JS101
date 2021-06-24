@@ -237,8 +237,12 @@ while (true) {
 
       if (computerTotal >= MAX_TOTAL - 4) break;
     }
+
+    console.clear();
+
     displayGameResult(computerTotal, playerTotal, playerHand, computerHand);
     displayMatchScore();
+
     if (playerWins === GAMES_TO_WIN_MATCH || dealerWins === GAMES_TO_WIN_MATCH)
       break;
   }
