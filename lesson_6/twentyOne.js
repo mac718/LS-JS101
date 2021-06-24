@@ -121,34 +121,26 @@ function determineGameResults(playerTotal, computerTotal) {
   }
 }
 
-function displayGameResult(
-  computerTotal,
-  playerTotal,
-  playerHand,
-  computerHand
-) {
+function displayGameResult(computerTotal, playerTotal) {
   let result = determineGameResults(playerTotal, computerTotal);
-  const handsAndTotals = `You have ${joinAnd(
-    playerHand
-  )} for a total of ${playerTotal} and the dealer has ${joinAnd(
-    computerHand
-  )} for a total of ${computerTotal}`;
-  console.log(result);
+  const handsAndTotals = `You have ${playerTotal} and the dealer has ${computerTotal}`;
+  console.log("\n");
+
   switch (result) {
     case "COMPUTER_BUSTED":
-      prompt(`${handsAndTotals}. Dealer busts; You win!`);
+      prompt(`${handsAndTotals}. Dealer busts; * You win! *\n`);
       break;
     case "PLAYER_BUSTED":
-      prompt(`${handsAndTotals}. You bust; dealer wins!`);
+      prompt(`${handsAndTotals}. You bust; * dealer wins! *\n`);
       break;
     case "PLAYER_WINS":
-      prompt(`${handsAndTotals}. You win!`);
+      prompt(`${handsAndTotals}. * You win! *\n`);
       break;
     case "DEALER_WINS":
-      prompt(`${handsAndTotals}. Dealer wins!`);
+      prompt(`${handsAndTotals}. * Dealer wins! *\n`);
       break;
     case "TIE":
-      prompt(`${handsAndTotals}. It's a tie!`);
+      prompt(`${handsAndTotals}. * It's a tie! *\n`);
       break;
   }
 }
@@ -180,51 +172,69 @@ function displayComputerHand(computerHand) {
   prompt(`The computer's hand is ${computerHand[0]} and unknown card.`);
 }
 
+function displayMatchResults() {
+  if (playerWins === 5) {
+    prompt("You win the match!");
+  } else {
+    prompt("Dealer wins the match!");
+  }
+}
+
+function displayMatchScore() {
+  prompt(`Dealer score: ${dealerWins}; your score: ${playerWins}.\n`);
+}
+
 while (true) {
-  let deck = createDeck();
-  shuffleDeck(deck);
-
-  let playerHand = deal(deck);
-  let action;
-  let playerTotal = calculateHandTotal(playerHand);
-  let computerHand = deal(deck);
-  let computerTotal = calculateHandTotal(computerHand);
-
   displayGreeting();
   while (true) {
-    displayComputerHand(computerHand);
-    action = getPlayerAction(playerHand, playerTotal);
+    let deck = createDeck();
+    shuffleDeck(deck);
 
-    if (action === "hit") {
-      hit(deck, playerHand);
-      playerTotal = calculateHandTotal(playerHand);
+    let playerHand = deal(deck);
+    let action;
+    let playerTotal = calculateHandTotal(playerHand);
+    let computerHand = deal(deck);
+    let computerTotal = calculateHandTotal(computerHand);
+
+    while (true) {
+      displayComputerHand(computerHand);
+      action = getPlayerAction(playerHand, playerTotal);
+
+      if (action === "hit") {
+        hit(deck, playerHand);
+        playerTotal = calculateHandTotal(playerHand);
+      }
+
+      if (action === "stay" || busted(playerTotal)) break;
     }
 
-    if (action === "stay" || busted(playerTotal)) break;
-  }
-
-  if (action === "stay") {
-    prompt(`Your total is ${playerTotal}.`);
-  }
-
-  while (true) {
-    if (busted(playerTotal)) break;
-
-    computerTotal = calculateHandTotal(computerHand);
-
-    if (computerTotal < 17) {
-      hit(deck, computerHand);
+    if (action === "stay") {
+      prompt(`Your total is ${playerTotal}.`);
     }
 
-    computerTotal = calculateHandTotal(computerHand);
-    prompt(
-      `Computer has ${joinAnd(computerHand)} for a total of ${computerTotal}`
-    );
+    while (true) {
+      if (busted(playerTotal)) break;
 
-    if (computerTotal >= 17) break;
+      computerTotal = calculateHandTotal(computerHand);
+
+      if (computerTotal < 17) {
+        hit(deck, computerHand);
+      }
+
+      computerTotal = calculateHandTotal(computerHand);
+      prompt(
+        `Computer has ${joinAnd(computerHand)} for a total of ${computerTotal}`
+      );
+
+      if (computerTotal >= 17) break;
+    }
+    displayGameResult(computerTotal, playerTotal, playerHand, computerHand);
+    displayMatchScore();
+    if (playerWins === 5 || dealerWins === 5) break;
   }
-  displayGameResult(computerTotal, playerTotal, playerHand, computerHand);
-  if (playerWins === 5 || computerWins === 5) break;
+
+  displayMatchResults();
+
   if (["n", "no"].includes(playAgain())) break;
 }
 
