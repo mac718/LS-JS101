@@ -1,4 +1,3 @@
-const { cos } = require("prelude-ls");
 const readline = require("readline-sync");
 
 const CARD_VALUES = [
@@ -17,7 +16,7 @@ const CARD_VALUES = [
   "ace",
 ];
 const NUMBER_OF_SUITS = 4;
-const MAX_TOTAL = 21;
+const MAX_TOTAL = 31;
 const GAMES_TO_WIN_MATCH = 5;
 
 let playerWins = 0;
