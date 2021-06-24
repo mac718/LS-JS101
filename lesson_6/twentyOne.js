@@ -1,3 +1,4 @@
+const M = require("minimatch");
 const readline = require("readline-sync");
 
 const CARD_VALUES = [
@@ -16,6 +17,8 @@ const CARD_VALUES = [
   "ace",
 ];
 const NUMBER_OF_SUITS = 4;
+const MAX_TOTAL = 21;
+const GAMES_TO_WIN_MATCH = 5;
 
 let playerWins = 0;
 let dealerWins = 0;
@@ -81,7 +84,7 @@ function calculateHandTotal(hand) {
   });
 
   aces.forEach((_) => {
-    total + 11 > 21 ? (total += 1) : (total += 11);
+    total + 11 > MAX_TOTAL ? (total += 1) : (total += 11);
   });
 
   return total;
@@ -100,7 +103,7 @@ function joinAnd(hand) {
 }
 
 function busted(total) {
-  return total > 21;
+  return total > MAX_TOTAL;
 }
 
 function determineGameResults(playerTotal, computerTotal) {
@@ -224,7 +227,7 @@ while (true) {
 
       computerTotal = calculateHandTotal(computerHand);
 
-      if (computerTotal < 17) {
+      if (computerTotal < MAX_TOTAL - 4) {
         hit(deck, computerHand);
       }
 
@@ -233,11 +236,12 @@ while (true) {
         `Computer has ${joinAnd(computerHand)} for a total of ${computerTotal}`
       );
 
-      if (computerTotal >= 17) break;
+      if (computerTotal >= MAX_TOTAL - 4) break;
     }
     displayGameResult(computerTotal, playerTotal, playerHand, computerHand);
     displayMatchScore();
-    if (playerWins === 5 || dealerWins === 5) break;
+    if (playerWins === GAMES_TO_WIN_MATCH || dealerWins === GAMES_TO_WIN_MATCH)
+      break;
   }
 
   displayMatchResults();
