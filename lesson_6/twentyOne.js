@@ -1,3 +1,4 @@
+const { cos } = require("prelude-ls");
 const readline = require("readline-sync");
 
 const CARD_VALUES = [
@@ -183,9 +184,13 @@ function displayComputerHand(computerHand) {
 
 function displayMatchResults() {
   if (playerWins === 5) {
-    prompt("You win the match!");
+    console.log("**********************");
+    console.log("* You win the match! *");
+    console.log("**********************");
   } else {
-    prompt("Dealer wins the match!");
+    console.log("**************************");
+    console.log("* Dealer wins the match! *");
+    console.log("**************************");
   }
 }
 
@@ -205,8 +210,9 @@ while (true) {
     let computerHand = deal(deck);
     let computerTotal = calculateHandTotal(computerHand);
 
+    displayComputerHand(computerHand);
+
     while (true) {
-      displayComputerHand(computerHand);
       action = getPlayerAction(playerHand, playerTotal);
 
       if (action === "hit") {
