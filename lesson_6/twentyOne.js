@@ -16,7 +16,7 @@ const CARD_VALUES = [
   "ace",
 ];
 const NUMBER_OF_SUITS = 4;
-const MAX_TOTAL = 31;
+const MAX_TOTAL = 21;
 const GAMES_TO_WIN_MATCH = 5;
 
 let playerWins = 0;
@@ -83,7 +83,11 @@ function calculateHandTotal(hand) {
   });
 
   aces.forEach((_) => {
-    total + 11 > MAX_TOTAL ? (total += 1) : (total += 11);
+    if (total + 11 > MAX_TOTAL) {
+      total += 1;
+    } else {
+      total += 11;
+    }
   });
 
   return total;
@@ -248,8 +252,12 @@ while (true) {
     displayGameResult(computerTotal, playerTotal, playerHand, computerHand);
     displayMatchScore();
 
-    if (playerWins === GAMES_TO_WIN_MATCH || dealerWins === GAMES_TO_WIN_MATCH)
+    if (
+      playerWins === GAMES_TO_WIN_MATCH ||
+      dealerWins === GAMES_TO_WIN_MATCH
+    ) {
       break;
+    }
   }
 
   displayMatchResults();
