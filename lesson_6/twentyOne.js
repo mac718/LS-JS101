@@ -1,6 +1,6 @@
 const readline = require("readline-sync");
 
-const CARD_VALUES = [
+const CARD_VALUES = Object.freeze([
   "2",
   "3",
   "4",
@@ -14,7 +14,7 @@ const CARD_VALUES = [
   "queen",
   "king",
   "ace",
-];
+]);
 const NUMBER_OF_SUITS = 4;
 const MAX_TOTAL = 21;
 const GAMES_TO_WIN_MATCH = 5;
