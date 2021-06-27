@@ -182,7 +182,7 @@ function getPlayerAction(playerHand, playerTotal) {
 }
 
 function displayComputerHand(computerHand) {
-  prompt(`The computer's hand is ${computerHand[0]} and unknown card.`);
+  prompt(`The dealer's hand is ${computerHand[0]} and unknown card.`);
 }
 
 function displayMatchResults() {
